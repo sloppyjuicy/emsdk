@@ -33,3 +33,5 @@ __pycache__
 /mingw
 /spidermonkey
 /binaryen
+/firefox
+/cmake

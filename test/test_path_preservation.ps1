@@ -2,6 +2,8 @@
 # and checks if parts of PATH are lost or overwritten. Set $env:SYSTEM_FLAG and $env:PERMANENT_FLAG to test each.
 # If no flag is provided the process/shell values are tested. See the CI file for an example.
 
+Set-StrictMode -Version 3.0
+
 refreshenv
 
 $repo_root = [System.IO.Path]::GetDirectoryName((resolve-path "$PSScriptRoot"))
@@ -125,20 +127,17 @@ finally {
     [Environment]::SetEnvironmentVariable("EMSDK", $null, "User")
     [Environment]::SetEnvironmentVariable("EMSDK_NODE", $null, "User")
     [Environment]::SetEnvironmentVariable("EMSDK_PYTHON", $null, "User")
-    [Environment]::SetEnvironmentVariable("JAVA_HOME", $null, "User")
 
     try {
         [Environment]::SetEnvironmentVariable("EMSDK", $null, "Machine")
         [Environment]::SetEnvironmentVariable("EMSDK_NODE", $null, "Machine")
         [Environment]::SetEnvironmentVariable("EMSDK_PYTHON", $null, "Machine")
-        [Environment]::SetEnvironmentVariable("JAVA_HOME", $null, "Machine")
     } catch {}
 
 
     [Environment]::SetEnvironmentVariable("EMSDK", $null, "Process")
     [Environment]::SetEnvironmentVariable("EMSDK_NODE", $null, "Process")
     [Environment]::SetEnvironmentVariable("EMSDK_PYTHON", $null, "Process")
-    [Environment]::SetEnvironmentVariable("JAVA_HOME", $null, "Process")
 
     refreshenv
 

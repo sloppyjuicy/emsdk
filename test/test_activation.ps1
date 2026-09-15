@@ -2,6 +2,8 @@
 # and checks if the environment variables and PATH are correctly updated. Set $env:SYSTEM_FLAG and $env:PERMANENT_FLAG to test each.
 # If no flag is provided the process/shell values are tested. See the CI file for an example.
 
+Set-StrictMode -Version 3.0
+
 refreshenv
 
 $repo_root = [System.IO.Path]::GetDirectoryName((resolve-path "$PSScriptRoot"))
@@ -29,7 +31,6 @@ try {
     $EMSDK = [System.Environment]::GetEnvironmentVariable("EMSDK", $env_type)
     $EMSDK_NODE = [System.Environment]::GetEnvironmentVariable("EMSDK_NODE", $env_type)
     $EMSDK_PYTHON = [System.Environment]::GetEnvironmentVariable("EMSDK_PYTHON", $env_type)
-    $JAVA_HOME = [System.Environment]::GetEnvironmentVariable("JAVA_HOME", $env_type)
     $PATH = [System.Environment]::GetEnvironmentVariable("PATH", $env_type)
 
     if (!$EMSDK) {
@@ -37,9 +38,6 @@ try {
     }
     if (!$EMSDK_NODE) {
         throw "EMSDK_NODE is not set for the user"
-    }
-    if (!$JAVA_HOME) {
-        throw "JAVA_HOME is not set for the user"
     }
     if (!$EMSDK_PYTHON) {
         throw "EMSDK_PYTHON is not set for the user"
@@ -76,20 +74,17 @@ finally {
     [Environment]::SetEnvironmentVariable("EMSDK", $null, "User")
     [Environment]::SetEnvironmentVariable("EMSDK_NODE", $null, "User")
     [Environment]::SetEnvironmentVariable("EMSDK_PYTHON", $null, "User")
-    [Environment]::SetEnvironmentVariable("JAVA_HOME", $null, "User")
 
     try {
         [Environment]::SetEnvironmentVariable("EMSDK", $null, "Machine")
         [Environment]::SetEnvironmentVariable("EMSDK_NODE", $null, "Machine")
         [Environment]::SetEnvironmentVariable("EMSDK_PYTHON", $null, "Machine")
-        [Environment]::SetEnvironmentVariable("JAVA_HOME", $null, "Machine")
     } catch {}
 
 
     [Environment]::SetEnvironmentVariable("EMSDK", $null, "Process")
     [Environment]::SetEnvironmentVariable("EMSDK_NODE", $null, "Process")
     [Environment]::SetEnvironmentVariable("EMSDK_PYTHON", $null, "Process")
-    [Environment]::SetEnvironmentVariable("JAVA_HOME", $null, "Process")
 
     refreshenv
 }
